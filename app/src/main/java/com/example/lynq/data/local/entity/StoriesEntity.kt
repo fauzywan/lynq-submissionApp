@@ -15,9 +15,9 @@ class StoriesEntity(
     @field:ColumnInfo("photoUrl")
     val photoUrl: String,
     @field:ColumnInfo("lon")
-    val lon: Any,
+    val lon: Int,
     @field:ColumnInfo("lat")
-    val lat: Any,
+    val lat: Int,
     @field:ColumnInfo("createdAt")
     val createdAt: String,
 )
