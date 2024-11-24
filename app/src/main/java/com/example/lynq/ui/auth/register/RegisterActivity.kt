@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.Toast
@@ -14,6 +15,7 @@ import com.example.lynq.ViewModelFactory
 import com.example.lynq.databinding.ActivityRegisterBinding
 import com.example.lynq.ui.auth.login.LoginActivity
 import com.example.lynq.data.Result
+import kotlin.math.log
 
 class RegisterActivity : AppCompatActivity() {
     private val viewModel by viewModels<RegisterViewModel> {
@@ -25,16 +27,31 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
-            setupView()
-            setupAction()
+        setupView()
+        setupAction()
 
+        binding.nameEditText.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+        if(binding.nameEditTextLayout.error!=null)
+        {
+            binding.nameEditTextLayout.error=null
+        }
+        }
+        binding.emailEditText.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            if(binding.emailEditTextLayout.error!=null)
+            {
+                binding.emailEditTextLayout.error=null
+            }
+        }
         viewModel.registerResult.observe(this) { result ->
             when (result) {
+
                 is Result.Loading -> {
-//                    binding.progressBar.visibility = View.VISIBLE
+                    binding.progressBar.visibility = View.VISIBLE
                 }
+
                 is Result.Success -> {
-//                    binding.progressBar.visibility = View.GONE
+                    binding.nameEditTextLayout.error = null
+                    binding.progressBar.visibility = View.GONE
                     AlertDialog.Builder(this).apply {
                         setTitle("Yeah!")
                         setMessage("Identitas Berhasil Dibuat,Pastikan Kamu Mengingatnya")
@@ -47,21 +64,28 @@ class RegisterActivity : AppCompatActivity() {
                         create()
                         show()
                     }
-                    Log.d("kak", "onCreate: ${result.data}")
                 }
+
                 is Result.Error -> {
-//                    binding.progressBar.visibility = View.GONE
-                    Toast.makeText(
-                        this,
-                         result.error,
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    binding.progressBar.visibility = View.GONE
+                    when {
+                        result.error.contains("name") -> {
+                            binding.nameEditTextLayout.error =result.error
+                        }
+                        result.error.contains("email") -> {
+                            binding.emailEditTextLayout.error =result.error
+                        }
+
+                        else -> {
+                            binding.nameEditTextLayout.error = result.error
+                        }
+                    }
                 }
-
             }
+        }
+    }
 
-        }
-        }
+
 
         private fun setupView() {
             @Suppress("DEPRECATION")
@@ -91,8 +115,8 @@ class RegisterActivity : AppCompatActivity() {
                 if (password.length < 8) {
                     binding.passwordEditTextLayout.error = "Password harus memiliki minimal 8 karakter"
                 } else {
-
-                        viewModel.register(name,email, password)
+                    binding.passwordEditTextLayout.error=null
+                    viewModel.register(name,email, password)
                     }
             }
         }

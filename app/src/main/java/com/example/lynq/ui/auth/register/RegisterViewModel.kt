@@ -1,6 +1,5 @@
 package com.example.lynq.ui.auth.register
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,12 +13,11 @@ import kotlinx.coroutines.launch
 
 class RegisterViewModel(private val lyncRepository: LynqRepository) : ViewModel() {
 
-    private val _registerResult = MutableLiveData<Result<String>>()
-    val registerResult: LiveData<Result<String>> = _registerResult
+    private val _registerResult = MutableLiveData<Result<RegisterResponse>>()
+    val registerResult: LiveData<Result<RegisterResponse>> = _registerResult
     fun register(name:String,email: String, password: String) {
         val resultLiveData = lyncRepository.authRegister(RegisterBody(name,email, password))
         resultLiveData.observeForever { result ->
-            Log.d("honlo", "register: ${result}")
             _registerResult.value = when (result) {
                 is Result.Success -> Result.Success(result.data)
                 is Result.Error -> Result.Error(result.error)

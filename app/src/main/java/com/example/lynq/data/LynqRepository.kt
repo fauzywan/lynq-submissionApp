@@ -6,12 +6,15 @@ import androidx.lifecycle.liveData
 import com.example.lynq.data.local.room.StoriesDao
 import com.example.lynq.data.pref.UserModel
 import com.example.lynq.data.pref.UserPreference
+import com.example.lynq.data.remote.response.ErrorResponse
 import com.example.lynq.data.remote.response.RegisterResponse
 import com.example.lynq.data.remote.retrofit.body.LoginBody
 import com.example.lynq.data.remote.retrofit.ApiService
 import com.example.lynq.data.remote.retrofit.body.RegisterBody
 import com.example.lynq.utils.AppExecutors
+import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
+import retrofit2.HttpException
 
 class LynqRepository private constructor(
     private val apiService: ApiService,
@@ -29,18 +32,24 @@ class LynqRepository private constructor(
     suspend fun logout() {
         userPreference.logout()
     }
-    fun authRegister(registerBody: RegisterBody): LiveData<Result<String>> = liveData {
+    fun authRegister(registerBody: RegisterBody): LiveData<Result<RegisterResponse>> = liveData {
         emit(Result.Loading)
         try {
             val response = apiService.register(registerBody)
+
             if (!response.error) {
-                emit(Result.Success(response.message))
+                emit(Result.Success(response))
             } else {
-                emit(Result.Error("Login failed: ${response.message}"))
+                emit(Result.Error(response.message))
             }
-        } catch (e: Exception) {
-            emit(Result.Error("Exception: ${e.message.toString()}"))
         }
+        catch (e: HttpException) {
+            val jsonInString = e.response()?.errorBody()?.string()
+            val errorBody = Gson().fromJson(jsonInString, ErrorResponse::class.java)
+
+            emit(Result.Error(errorBody.message.toString()))
+        }
+
     }
 
     fun authLogin(loginBody: LoginBody): LiveData<Result<UserModel>> = liveData {
@@ -72,7 +81,7 @@ class LynqRepository private constructor(
             if (!response.error) {
                 emit(Result.Success(response.message))
             } else {
-                emit(Result.Error("Register failed: ${response.message}"))
+                emit(Result.Error(response.message))
             }
         } catch (e: Exception) {
             emit(Result.Error("Exception: ${e.message.toString()}"))

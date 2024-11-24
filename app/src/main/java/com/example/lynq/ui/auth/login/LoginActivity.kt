@@ -3,6 +3,7 @@ package com.example.lynq.ui.auth.login
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
@@ -36,6 +37,7 @@ class LoginActivity : AppCompatActivity() {
         viewModel.loginResult.observe(this) { result ->
             when (result) {
                 is Result.Success -> {
+                    binding.progressBar.visibility = View.GONE
                     val user = result.data
                     viewModel.saveSession(user).apply {
                         AlertDialog.Builder(this@LoginActivity).apply {
@@ -59,8 +61,10 @@ class LoginActivity : AppCompatActivity() {
                 }
 
                 is Result.Loading -> {
-//                    binding.progressBar.visibility = View.VISIBLE
+                    binding.progressBar.visibility = View.VISIBLE
                 }
+
+
             }
         }
     }
