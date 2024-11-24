@@ -1,4 +1,4 @@
-package com.example.lynq.data.remote.request
+package com.example.lynq.data.remote.retrofit.body
 
 data class LoginBody(
     val email: String,

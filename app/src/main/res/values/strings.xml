@@ -3,4 +3,14 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="who_there">Hallo Siapa Disana?</string>
+    <string name="login_desc">Pastikan Kamu mengisi setiap kolom dengan benar</string>
+    <string name="email">Email</string>
+    <string name="password">Sandi</string>
+    <string name="login">Mulai Terhubung</string>
+    <string name="not_registered">Belum Punya Akun?</string>
+    <string name="title_signup_page">Halo Pendatang Baru</string>
+    <string name="name">Mari mulai dengan namamu</string>
+    <string name="signup">Ambil Identitas</string>
+    <string name="back_to_login">Kembali ke Login</string>
 </resources>
