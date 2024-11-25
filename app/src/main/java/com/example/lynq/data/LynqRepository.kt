@@ -10,7 +10,6 @@ import com.example.lynq.data.remote.response.ErrorResponse
 import com.example.lynq.data.remote.response.RegisterResponse
 import com.example.lynq.data.remote.retrofit.body.LoginBody
 import com.example.lynq.data.remote.retrofit.ApiService
-import com.example.lynq.data.remote.retrofit.body.RegisterBody
 import com.example.lynq.utils.AppExecutors
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
@@ -32,10 +31,11 @@ class LynqRepository private constructor(
     suspend fun logout() {
         userPreference.logout()
     }
-    fun authRegister(registerBody: RegisterBody): LiveData<Result<RegisterResponse>> = liveData {
+
+    fun authRegister(name:String,email:String,password:String): LiveData<Result<RegisterResponse>> = liveData {
         emit(Result.Loading)
         try {
-            val response = apiService.register(registerBody)
+            val response = apiService.register(name,email,password)
 
             if (!response.error) {
                 emit(Result.Success(response))
@@ -46,22 +46,24 @@ class LynqRepository private constructor(
         catch (e: HttpException) {
             val jsonInString = e.response()?.errorBody()?.string()
             val errorBody = Gson().fromJson(jsonInString, ErrorResponse::class.java)
-
             emit(Result.Error(errorBody.message.toString()))
+        }
+        catch (e: Exception) {
+            emit(Result.Error(e.message.toString()))
         }
 
     }
 
-    fun authLogin(loginBody: LoginBody): LiveData<Result<UserModel>> = liveData {
+    fun authLogin(email: String,password: String): LiveData<Result<UserModel>> = liveData {
         emit(Result.Loading)
         try {
-            val response = apiService.authenticate(loginBody)
+            val response = apiService.authenticate(email,password)
             if (!response.error) {
                 val user = response.loginResult
                 val userModel = UserModel(
                     name = user.name,
                     userId = user.userId,
-                    email = loginBody.email,
+                    email = email,
                     token = user.token,
                     isLogin = true
                 )
@@ -69,24 +71,16 @@ class LynqRepository private constructor(
             } else {
                 emit(Result.Error("Login failed: ${response.message}"))
             }
-        } catch (e: Exception) {
-            emit(Result.Error("Exception: ${e.message.toString()}"))
+        }   catch (e: HttpException) {
+            val jsonInString = e.response()?.errorBody()?.string()
+            val errorBody = Gson().fromJson(jsonInString, ErrorResponse::class.java)
+            emit(Result.Error(errorBody.message.toString()))
+        }
+        catch (e: Exception) {
+            emit(Result.Error(e.message.toString()))
         }
     }
 
-    fun authRegistration(registerBody: RegisterBody): LiveData<Result<String>> = liveData {
-        emit(Result.Loading)
-        try {
-            val response = apiService.authenticate(LoginBody("",""))
-            if (!response.error) {
-                emit(Result.Success(response.message))
-            } else {
-                emit(Result.Error(response.message))
-            }
-        } catch (e: Exception) {
-            emit(Result.Error("Exception: ${e.message.toString()}"))
-        }
-    }
 
     companion object {
         @Volatile

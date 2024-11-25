@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.util.Patterns
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
@@ -57,7 +58,17 @@ class LoginActivity : AppCompatActivity() {
                 }
 
                 is Result.Error -> {
-                    Toast.makeText(this, result.error, Toast.LENGTH_SHORT).show()
+                    binding.progressBar.visibility = View.GONE
+                    when {
+
+                        result.error.contains("email") -> {
+                            binding.edRegisterEmailLayout.error = result.error
+                        }
+
+                        else -> {
+                            Toast.makeText(this, result.error, Toast.LENGTH_SHORT).show()
+                        }
+                    }
                 }
 
                 is Result.Loading -> {
@@ -73,14 +84,26 @@ class LoginActivity : AppCompatActivity() {
 
     private fun setupAction() {
         binding.loginButton.setOnClickListener {
-            val email = binding.emailEditText.text.toString()
-            val password = binding.passwordEditText.text.toString()
+            val email = binding.edRegisterEmail.text.toString()
+            val password = binding.edRegisterPassword.text.toString()
             viewModel.login(email,password)
         }
         binding.registrasion.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
             finish()
+        }
+        binding.edRegisterEmail.setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                val email = binding.edRegisterEmail.text.toString().trim()
+                if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    binding.edRegisterEmailLayout.error = "Invalid email format"
+                } else {
+                    binding.edRegisterEmailLayout.error = null // Hapus error jika email valid
+                }
+            }else{
+                binding.edRegisterEmailLayout.error = null
+            }
         }
     }
 

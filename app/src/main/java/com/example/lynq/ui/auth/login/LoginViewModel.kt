@@ -15,7 +15,7 @@ class LoginViewModel(private val lyncRepository: LynqRepository) : ViewModel() {
     private val _loginResult = MutableLiveData<Result<UserModel>>()
     val loginResult: LiveData<Result<UserModel>> = _loginResult
     fun login(email: String, password: String) {
-        val resultLiveData = lyncRepository.authLogin(LoginBody(email, password))
+        val resultLiveData = lyncRepository.authLogin(email, password)
         resultLiveData.observeForever { result ->
             _loginResult.value = when (result) {
                 is Result.Success -> Result.Success(result.data)

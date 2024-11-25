@@ -8,7 +8,6 @@ import com.example.lynq.data.LynqRepository
 import com.example.lynq.data.Result
 import com.example.lynq.data.pref.UserModel
 import com.example.lynq.data.remote.response.RegisterResponse
-import com.example.lynq.data.remote.retrofit.body.RegisterBody
 import kotlinx.coroutines.launch
 
 class RegisterViewModel(private val lyncRepository: LynqRepository) : ViewModel() {
@@ -16,7 +15,7 @@ class RegisterViewModel(private val lyncRepository: LynqRepository) : ViewModel(
     private val _registerResult = MutableLiveData<Result<RegisterResponse>>()
     val registerResult: LiveData<Result<RegisterResponse>> = _registerResult
     fun register(name:String,email: String, password: String) {
-        val resultLiveData = lyncRepository.authRegister(RegisterBody(name,email, password))
+        val resultLiveData = lyncRepository.authRegister(name,email, password)
         resultLiveData.observeForever { result ->
             _registerResult.value = when (result) {
                 is Result.Success -> Result.Success(result.data)

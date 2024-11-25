@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.util.Patterns
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
@@ -15,7 +16,6 @@ import com.example.lynq.ViewModelFactory
 import com.example.lynq.databinding.ActivityRegisterBinding
 import com.example.lynq.ui.auth.login.LoginActivity
 import com.example.lynq.data.Result
-import kotlin.math.log
 
 class RegisterActivity : AppCompatActivity() {
     private val viewModel by viewModels<RegisterViewModel> {
@@ -30,16 +30,29 @@ class RegisterActivity : AppCompatActivity() {
         setupView()
         setupAction()
 
-        binding.nameEditText.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-        if(binding.nameEditTextLayout.error!=null)
+        binding.edRegisterName.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+        if(binding.edRegisterNameLayout.error!=null)
         {
-            binding.nameEditTextLayout.error=null
+            binding.edRegisterNameLayout
+                .error=null
         }
         }
-        binding.emailEditText.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-            if(binding.emailEditTextLayout.error!=null)
+        binding.edRegisterEmail.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            if(binding.edRegisterEmailLayout.error!=null)
             {
-                binding.emailEditTextLayout.error=null
+                binding.edRegisterEmailLayout.error=null
+            }
+        }
+        binding.edRegisterEmail.setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                val email = binding.edRegisterEmail.text.toString().trim()
+                if (!isValidEmail(email)) {
+                    binding.edRegisterEmailLayout.error = "Invalid email format"
+                } else {
+                    binding.edRegisterEmailLayout.error = null // Hapus error jika email valid
+                }
+            }else{
+                    binding.edRegisterEmailLayout.error = null
             }
         }
         viewModel.registerResult.observe(this) { result ->
@@ -50,7 +63,7 @@ class RegisterActivity : AppCompatActivity() {
                 }
 
                 is Result.Success -> {
-                    binding.nameEditTextLayout.error = null
+                    binding.edRegisterNameLayout.error = null
                     binding.progressBar.visibility = View.GONE
                     AlertDialog.Builder(this).apply {
                         setTitle("Yeah!")
@@ -70,14 +83,14 @@ class RegisterActivity : AppCompatActivity() {
                     binding.progressBar.visibility = View.GONE
                     when {
                         result.error.contains("name") -> {
-                            binding.nameEditTextLayout.error =result.error
+                            binding.edRegisterNameLayout.error =result.error
                         }
                         result.error.contains("email") -> {
-                            binding.emailEditTextLayout.error =result.error
+                            binding.edRegisterEmailLayout.error =result.error
                         }
 
                         else -> {
-                            binding.nameEditTextLayout.error = result.error
+                            binding.edRegisterNameLayout.error = result.error
                         }
                     }
                 }
@@ -85,7 +98,9 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-
+    fun isValidEmail(email: String): Boolean {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    }
 
         private fun setupView() {
             @Suppress("DEPRECATION")
@@ -107,15 +122,24 @@ class RegisterActivity : AppCompatActivity() {
                 finish()
 
             }
+//
+//            binding.edRegisterEmail.On = View.OnFocusChangeListener { _, hasFocus ->
+//                if(binding.edRegisterNameLayout.error!=null)
+//                {
+//                    binding.edRegisterNameLayout
+//                        .error=null
+//                }
+//            }
+
             binding.signupButton.setOnClickListener {
-                val name = binding.nameEditText.text.toString()
-                val email = binding.emailEditText.text.toString()
-                val password = binding.passwordEditText.text.toString()
+                val name = binding.edRegisterName.text.toString()
+                val email = binding.edRegisterEmail.text.toString()
+                val password = binding.edRegisterPassword.text.toString()
                 Log.d("password", "setupAction: ${password}")
                 if (password.length < 8) {
-                    binding.passwordEditTextLayout.error = "Password harus memiliki minimal 8 karakter"
+                    binding.edRegisterPasswordLayout.error = "Password harus memiliki minimal 8 karakter"
                 } else {
-                    binding.passwordEditTextLayout.error=null
+                    binding.edRegisterPasswordLayout.error=null
                     viewModel.register(name,email, password)
                     }
             }
