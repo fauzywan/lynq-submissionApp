@@ -1,6 +1,6 @@
 package com.example.lynq.data.remote.retrofit
 
-import com.example.lynq.data.remote.retrofit.body.LoginBody
+
 import com.example.lynq.data.remote.response.RegisterResponse
 import com.example.lynq.data.remote.response.LoginResponse
 import com.example.lynq.data.remote.response.StoriesResponse
@@ -14,8 +14,6 @@ import retrofit2.http.POST
 import retrofit2.http.Query
 
 interface ApiService {
-
-
     @FormUrlEncoded
     @POST("register")
     suspend fun register(
@@ -23,12 +21,14 @@ interface ApiService {
     @Field("email") email: String,
     @Field("password") password: String
     ): RegisterResponse
+
     @FormUrlEncoded
     @POST("login")
     suspend fun authenticate(
         @Field("email") email: String,
         @Field("password") password: String
     ): LoginResponse
+
     @GET("stories")
     fun getAllStories(
         @Header("Authorization") token: String,

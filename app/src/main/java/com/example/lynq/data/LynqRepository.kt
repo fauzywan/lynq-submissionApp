@@ -8,7 +8,7 @@ import com.example.lynq.data.pref.UserModel
 import com.example.lynq.data.pref.UserPreference
 import com.example.lynq.data.remote.response.ErrorResponse
 import com.example.lynq.data.remote.response.RegisterResponse
-import com.example.lynq.data.remote.retrofit.body.LoginBody
+
 import com.example.lynq.data.remote.retrofit.ApiService
 import com.example.lynq.utils.AppExecutors
 import com.google.gson.Gson

@@ -8,7 +8,6 @@ import com.example.lynq.data.LynqRepository
 import com.example.lynq.data.pref.UserModel
 import kotlinx.coroutines.launch
 import com.example.lynq.data.Result
-import com.example.lynq.data.remote.retrofit.body.LoginBody
 
 class LoginViewModel(private val lyncRepository: LynqRepository) : ViewModel() {
 
