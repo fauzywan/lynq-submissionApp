@@ -18,6 +18,7 @@ import com.example.lynq.ui.auth.login.LoginActivity
 import com.example.lynq.data.Result
 
 class RegisterActivity : AppCompatActivity() {
+
     private val viewModel by viewModels<RegisterViewModel> {
         ViewModelFactory.getInstance(this)
     }

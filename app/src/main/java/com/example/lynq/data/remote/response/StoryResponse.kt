@@ -2,7 +2,7 @@ package com.example.lynq.data.remote.response
 
 import com.google.gson.annotations.SerializedName
 
-data class StoriesResponse(
+data class StoryResponse(
 
 	@field:SerializedName("listStory")
 	val listStory: List<ListStoryItem>,

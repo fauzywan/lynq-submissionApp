@@ -20,6 +20,10 @@ import com.example.lynq.ViewModelFactory
 import com.example.lynq.databinding.ActivityLoginBinding
 import com.example.lynq.data.Result
 import com.example.lynq.ui.auth.register.RegisterActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
     private val viewModel by viewModels<LoginViewModel> {
@@ -39,18 +43,23 @@ class LoginActivity : AppCompatActivity() {
                 is Result.Success -> {
                     binding.progressBar.visibility = View.GONE
                     val user = result.data
-                    viewModel.saveSession(user).apply {
-                        AlertDialog.Builder(this@LoginActivity).apply {
-                            setTitle("Hallo ${user.name}")
-                            setMessage("Selamat Datang,Selamat Menjelajah")
-                            setPositiveButton("Buka Gerbang") { _, _ ->
-                                val intent = Intent(context, MainActivity::class.java)
-                                intent.flags =
-                                    Intent.FLAG_ACTIVITY_SINGLE_TOP
-                                startActivity(intent)
+                    viewModel.saveSession(user)
+
+                    viewModel.sessionSaveResult.observe(this) { isSaved ->
+                        if (isSaved) {
+                            AlertDialog.Builder(this@LoginActivity).apply {
+                                setTitle("Hallo ${user.name}")
+                                setMessage("Selamat Datang,Selamat Menjelajah")
+                                setPositiveButton("Buka Gerbang") { _, _ ->
+                                    val intent = Intent(context, MainActivity::class.java)
+                                    intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+                                    startActivity(intent)
+                                }
+                                create()
+                                show()
                             }
-                            create()
-                            show()
+                        } else {
+                            Toast.makeText(this, "Gagal menyimpan session", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }

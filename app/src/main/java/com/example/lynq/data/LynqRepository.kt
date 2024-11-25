@@ -2,12 +2,14 @@ package com.example.lynq.data
 
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.liveData
 import com.example.lynq.data.local.room.StoriesDao
 import com.example.lynq.data.pref.UserModel
 import com.example.lynq.data.pref.UserPreference
 import com.example.lynq.data.remote.response.ErrorResponse
 import com.example.lynq.data.remote.response.RegisterResponse
+import com.example.lynq.data.remote.response.StoryResponse
 
 import com.example.lynq.data.remote.retrofit.ApiService
 import com.example.lynq.utils.AppExecutors
@@ -25,8 +27,8 @@ class LynqRepository private constructor(
         userPreference.saveSession(user)
     }
 
-    fun getSession(): Flow<UserModel> {
-        return userPreference.getSession()
+    fun getSession(): LiveData<UserModel> {
+        return userPreference.getSession().asLiveData()
     }
     suspend fun logout() {
         userPreference.logout()
@@ -72,6 +74,25 @@ class LynqRepository private constructor(
                 emit(Result.Error("Login failed: ${response.message}"))
             }
         }   catch (e: HttpException) {
+            val jsonInString = e.response()?.errorBody()?.string()
+            val errorBody = Gson().fromJson(jsonInString, ErrorResponse::class.java)
+            emit(Result.Error(errorBody.message.toString()))
+        }
+        catch (e: Exception) {
+            emit(Result.Error(e.message.toString()))
+        }
+    }
+
+    fun getAllStory(token:String): LiveData<Result<StoryResponse>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = apiService.getStories("Bearer $token")
+            if (!response.error) {
+                emit(Result.Success(response))
+            } else {
+                emit(Result.Error(response.message))
+            }
+        }catch (e: HttpException) {
             val jsonInString = e.response()?.errorBody()?.string()
             val errorBody = Gson().fromJson(jsonInString, ErrorResponse::class.java)
             emit(Result.Error(errorBody.message.toString()))

@@ -10,9 +10,6 @@ import com.example.lynq.data.pref.UserModel
 import kotlinx.coroutines.launch
 
 class NotificationsViewModel(private val lynqRepository: LynqRepository) : ViewModel() {
-    fun getSession(): LiveData<UserModel> {
-        return lynqRepository.getSession().asLiveData()
-    }
 
     fun logout() {
         viewModelScope.launch {
