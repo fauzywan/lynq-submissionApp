@@ -46,14 +46,14 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getSession()
-        viewModel.userSession.observe(requireActivity()) { user ->
-            if (user != null) {
-                Log.d("gggg", "onViewCreated:${user.token} ")
-                viewModel.getAllStory(user.token)
-            }
-        }
-        viewModel.stories.observe(viewLifecycleOwner){result->
+//        viewModel.getSession()
+//        viewModel.userSession.observe(requireActivity()) { user ->
+//            if (user != null) {
+//
+//                viewModel.getAllStory(user.token)
+//            }
+//        }
+        viewModel.getAllStory.observe(viewLifecycleOwner){result->
             when(result){
                 is Result.Loading->{
                     binding.progressBar.visibility=View.VISIBLE

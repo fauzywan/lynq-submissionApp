@@ -15,6 +15,7 @@ import com.example.lynq.data.remote.retrofit.ApiService
 import com.example.lynq.utils.AppExecutors
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import retrofit2.HttpException
 
 class LynqRepository private constructor(
@@ -83,9 +84,10 @@ class LynqRepository private constructor(
         }
     }
 
-    fun getAllStory(token:String): LiveData<Result<StoryResponse>> = liveData {
+    fun getAllStory(): LiveData<Result<StoryResponse>> = liveData {
         emit(Result.Loading)
         try {
+            val token = userPreference.getSession().first().token
             val response = apiService.getStories("Bearer $token")
             if (!response.error) {
                 emit(Result.Success(response))

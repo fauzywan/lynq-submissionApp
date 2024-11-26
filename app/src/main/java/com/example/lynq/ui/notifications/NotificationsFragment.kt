@@ -39,7 +39,7 @@ class NotificationsFragment : Fragment() {
         val factory: ViewModelFactory = ViewModelFactory.getInstance(requireActivity())
         val viewModel: NotificationsViewModel by viewModels { factory }
 
-        binding.btnLogout.setOnClickListener{
+        binding.actionLogout.setOnClickListener{
                 AlertDialog.Builder(requireContext())
                     .setTitle("Konfirmasi Logout")
                     .setMessage("Apakah Anda yakin ingin logout?")

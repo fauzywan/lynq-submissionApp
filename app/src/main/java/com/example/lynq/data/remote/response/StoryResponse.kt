@@ -1,6 +1,8 @@
 package com.example.lynq.data.remote.response
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
 data class StoryResponse(
 
@@ -13,7 +15,7 @@ data class StoryResponse(
 	@field:SerializedName("message")
 	val message: String
 )
-
+@Parcelize
 data class ListStoryItem(
 
 	@field:SerializedName("photoUrl")
@@ -36,4 +38,5 @@ data class ListStoryItem(
 
 	@field:SerializedName("lat")
 	val lat: Double? = null
-)
+) : Parcelable
+

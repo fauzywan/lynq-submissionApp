@@ -15,8 +15,8 @@ import com.example.lynq.ui.DetailStoryActivity
 class StoryAdapter(private val stories: List<ListStoryItem>) : RecyclerView.Adapter<StoryAdapter.StoryViewHolder>() {
 
     class StoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val photo: ImageView = view.findViewById(R.id.imgItemPhoto)
-        val name: TextView = view.findViewById(R.id.tvItemName)
+        val photo: ImageView = view.findViewById(R.id.iv_item_photo)
+        val name: TextView = view.findViewById(R.id.tv_item_name)
         val description: TextView = view.findViewById(R.id.tvItemDescription)
     }
 
@@ -35,6 +35,7 @@ class StoryAdapter(private val stories: List<ListStoryItem>) : RecyclerView.Adap
 
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, DetailStoryActivity::class.java)
+            intent.putExtra("selected_story", story)
             holder.itemView.context.startActivity(intent)
         }
     }

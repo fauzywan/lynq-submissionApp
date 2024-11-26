@@ -18,11 +18,8 @@ class HomeViewModel(private val lynqRepository: LynqRepository) : ViewModel() {
     private val _stories = MutableLiveData<Result<StoryResponse>>()
     val stories: LiveData<Result<StoryResponse>> = _stories
 
-    fun getAllStory(token: String) {
-        lynqRepository.getAllStory(token).observeForever { result ->
-            _stories.value = result
-        }
-    }
+    val getAllStory = lynqRepository.getAllStory()
+
 
     private val _userSession = MutableLiveData<UserModel>()
     val userSession: LiveData<UserModel> = _userSession

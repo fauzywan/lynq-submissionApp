@@ -68,8 +68,8 @@ class LoginActivity : AppCompatActivity() {
                     binding.progressBar.visibility = View.GONE
                     when {
                         result.error.contains("email") -> {
-                            binding.edRegisterEmail.error = result.error
-                            binding.edRegisterEmail.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, android.R.color.holo_red_dark))
+                            binding.edLoginEmail.error = result.error
+                            binding.edLoginEmail.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, android.R.color.holo_red_dark))
                         }
 
                         else -> {
@@ -91,8 +91,8 @@ class LoginActivity : AppCompatActivity() {
 
     private fun setupAction() {
         binding.loginButton.setOnClickListener {
-            val email = binding.edRegisterEmail.text.toString()
-            val password = binding.edRegisterPassword.text.toString()
+            val email = binding.edLoginEmail.text.toString()
+            val password = binding.edLoginPassword.text.toString()
             viewModel.login(email,password)
         }
         binding.registrasion.setOnClickListener {
@@ -101,28 +101,28 @@ class LoginActivity : AppCompatActivity() {
             finish()
         }
 
-        binding.edRegisterEmail.addTextChangedListener(object : TextWatcher {
+        binding.edLoginEmail.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
             }
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                binding.edRegisterPassword.isEnabled = s.isNotEmpty()
+                binding.edLoginPassword.isEnabled = s.isNotEmpty()
                 val isEmailValid = Patterns.EMAIL_ADDRESS.matcher(s.toString()).matches()
                 if(isEmailValid){
-                    binding.edRegisterEmail.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this@LoginActivity, android.R.color.darker_gray))
+                    binding.edLoginEmail.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this@LoginActivity, android.R.color.darker_gray))
 
                 }
-                binding.loginButton.isEnabled = isEmailValid && binding.edRegisterPassword.isEnabled
+                binding.loginButton.isEnabled = isEmailValid && binding.edLoginPassword.isEnabled
             }
             override fun afterTextChanged(s: Editable) {
             }
         })
-        binding.edRegisterPassword.addTextChangedListener(object : TextWatcher {
+        binding.edLoginPassword.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
             }
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
 
-                val isEmailValid = Patterns.EMAIL_ADDRESS.matcher(binding.edRegisterEmail.text.toString()).matches()
+                val isEmailValid = Patterns.EMAIL_ADDRESS.matcher(binding.edLoginEmail.text.toString()).matches()
                 val isPasswordNotEmpty = s.toString().isNotEmpty()
 
                 binding.loginButton.isEnabled = isEmailValid && isPasswordNotEmpty
@@ -131,16 +131,16 @@ class LoginActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable) {
             }
         })
-        binding.edRegisterEmail.setOnFocusChangeListener { _, hasFocus ->
+        binding.edLoginEmail.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
-                val email = binding.edRegisterEmail.text.toString().trim()
+                val email = binding.edLoginEmail.text.toString().trim()
                 if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                    binding.edRegisterEmail.error = "Invalid email format"
+                    binding.edLoginEmail.error = "Invalid email format"
                 } else {
-                    binding.edRegisterEmail.error = null
+                    binding.edLoginEmail.error = null
                 }
             }else{
-                binding.edRegisterEmail.error = null
+                binding.edLoginEmail.error = null
             }
         }
     }
