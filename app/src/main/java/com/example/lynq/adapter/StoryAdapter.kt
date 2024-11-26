@@ -1,17 +1,19 @@
 package com.example.lynq.adapter
 
+import android.app.Activity
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.app.ActivityOptionsCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.lynq.R
 import com.example.lynq.data.remote.response.ListStoryItem
-import com.example.lynq.ui.DetailStoryActivity
-
+import com.example.lynq.ui.detail.DetailStoryActivity
+import androidx.core.util.Pair
 class StoryAdapter(private val stories: List<ListStoryItem>) : RecyclerView.Adapter<StoryAdapter.StoryViewHolder>() {
 
     class StoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -36,7 +38,14 @@ class StoryAdapter(private val stories: List<ListStoryItem>) : RecyclerView.Adap
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, DetailStoryActivity::class.java)
             intent.putExtra("selected_story", story)
-            holder.itemView.context.startActivity(intent)
+            val optionsCompat: ActivityOptionsCompat =
+                ActivityOptionsCompat.makeSceneTransitionAnimation(
+                    holder.itemView.context as Activity,
+                    Pair(holder.photo, "profile"),
+                    Pair(holder.name, "name"),
+                )
+            holder.itemView.context.startActivity(intent, optionsCompat.toBundle())
+
         }
     }
 

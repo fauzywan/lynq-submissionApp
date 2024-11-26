@@ -1,5 +1,7 @@
 package com.example.lynq.ui.auth.login
 
+//noinspection SuspiciousImport
+import android.R
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Build
@@ -20,10 +22,6 @@ import com.example.lynq.ViewModelFactory
 import com.example.lynq.databinding.ActivityLoginBinding
 import com.example.lynq.data.Result
 import com.example.lynq.ui.auth.register.RegisterActivity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
     private val viewModel by viewModels<LoginViewModel> {
@@ -41,6 +39,7 @@ class LoginActivity : AppCompatActivity() {
         viewModel.loginResult.observe(this) { result ->
             when (result) {
                 is Result.Success -> {
+                    enabledElement(true)
                     binding.progressBar.visibility = View.GONE
                     val user = result.data
                     viewModel.saveSession(user)
@@ -48,28 +47,31 @@ class LoginActivity : AppCompatActivity() {
                     viewModel.sessionSaveResult.observe(this) { isSaved ->
                         if (isSaved) {
                             AlertDialog.Builder(this@LoginActivity).apply {
-                                setTitle("Hallo ${user.name}")
-                                setMessage("Selamat Datang,Selamat Menjelajah")
-                                setPositiveButton("Buka Gerbang") { _, _ ->
+                                setTitle(getString(com.example.lynq.R.string.hallo, user.name))
+                                setMessage(getString(com.example.lynq.R.string.welcome_traveler))
+                                setPositiveButton(getString(com.example.lynq.R.string.open_gate)) { _, _ ->
                                     val intent = Intent(context, MainActivity::class.java)
                                     intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
                                     startActivity(intent)
+                                    finish()
                                 }
                                 create()
                                 show()
                             }
                         } else {
-                            Toast.makeText(this, "Gagal menyimpan session", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this,
+                                getString(com.example.lynq.R.string.faile_session), Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
 
                 is Result.Error -> {
+                    enabledElement(true)
                     binding.progressBar.visibility = View.GONE
                     when {
                         result.error.contains("email") -> {
                             binding.edLoginEmail.error = result.error
-                            binding.edLoginEmail.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, android.R.color.holo_red_dark))
+                            binding.edLoginEmail.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.holo_red_dark))
                         }
 
                         else -> {
@@ -79,14 +81,21 @@ class LoginActivity : AppCompatActivity() {
                 }
 
                 is Result.Loading -> {
+                    enabledElement(false)
+
                     binding.progressBar.visibility = View.VISIBLE
                 }
-
 
             }
         }
     }
 
+    private fun enabledElement(isEnabled: Boolean) {
+        binding.loginButton.isEnabled=isEnabled
+        binding.edLoginEmail.isEnabled=isEnabled
+        binding.edLoginPassword.isEnabled=isEnabled
+        binding.registrasion.isEnabled=isEnabled
+    }
 
 
     private fun setupAction() {
@@ -96,9 +105,9 @@ class LoginActivity : AppCompatActivity() {
             viewModel.login(email,password)
         }
         binding.registrasion.setOnClickListener {
-            val intent = Intent(this, RegisterActivity::class.java)
-            startActivity(intent)
-            finish()
+                val intent = Intent(this, RegisterActivity::class.java)
+                startActivity(intent)
+                finish()
         }
 
         binding.edLoginEmail.addTextChangedListener(object : TextWatcher {
@@ -111,23 +120,20 @@ class LoginActivity : AppCompatActivity() {
                     binding.edLoginEmail.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this@LoginActivity, android.R.color.darker_gray))
 
                 }
-                binding.loginButton.isEnabled = isEmailValid && binding.edLoginPassword.isEnabled
+                binding.loginButton.isEnabled = isEmailValid && passwordValidation()
             }
+
             override fun afterTextChanged(s: Editable) {
             }
         })
         binding.edLoginPassword.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
             }
-
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-
                 val isEmailValid = Patterns.EMAIL_ADDRESS.matcher(binding.edLoginEmail.text.toString()).matches()
-                val isPasswordNotEmpty = s.toString().isNotEmpty()
 
-                binding.loginButton.isEnabled = isEmailValid && isPasswordNotEmpty
+                binding.loginButton.isEnabled = isEmailValid && passwordValidation()
             }
-
             override fun afterTextChanged(s: Editable) {
             }
         })
@@ -144,7 +150,9 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
-
+    private fun passwordValidation(): Boolean {
+        return (binding.edLoginPassword.text.toString().isNotEmpty()&&binding.edLoginPassword.text.toString().length>8)
+    }
     private fun setupView() {
             @Suppress("DEPRECATION")
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {

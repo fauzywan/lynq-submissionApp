@@ -7,9 +7,9 @@ import com.example.lynq.data.LynqRepository
 import com.example.lynq.di.Injection
 import com.example.lynq.ui.auth.login.LoginViewModel
 import com.example.lynq.ui.auth.register.RegisterViewModel
-import com.example.lynq.ui.dashboard.DashboardViewModel
-import com.example.lynq.ui.home.HomeViewModel
-import com.example.lynq.ui.notifications.NotificationsViewModel
+import com.example.lynq.ui.post.PostViewModel
+import com.example.lynq.ui.story.StoryViewModel
+import com.example.lynq.ui.settings.SettingsViewModel
 
 @Suppress("UNCHECKED_CAST")
 class ViewModelFactory private constructor(
@@ -18,12 +18,12 @@ class ViewModelFactory private constructor(
     @Suppress
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when {
-            modelClass.isAssignableFrom(DashboardViewModel::class.java) -> DashboardViewModel(lynqRepository) as T
-            modelClass.isAssignableFrom(NotificationsViewModel::class.java) -> NotificationsViewModel(lynqRepository) as T
-            modelClass.isAssignableFrom(HomeViewModel::class.java) -> HomeViewModel(lynqRepository) as T
+            modelClass.isAssignableFrom(PostViewModel::class.java) -> PostViewModel(lynqRepository) as T
+            modelClass.isAssignableFrom(SettingsViewModel::class.java) -> SettingsViewModel(lynqRepository) as T
             modelClass.isAssignableFrom(LoginViewModel::class.java) -> LoginViewModel(lynqRepository) as T
             modelClass.isAssignableFrom(MainViewModel::class.java) -> MainViewModel(lynqRepository) as T
             modelClass.isAssignableFrom(RegisterViewModel::class.java) -> RegisterViewModel(lynqRepository) as T
+            modelClass.isAssignableFrom(StoryViewModel::class.java) -> StoryViewModel(lynqRepository) as T
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
     }

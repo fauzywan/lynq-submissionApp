@@ -1,15 +1,10 @@
-package com.example.lynq.ui
+package com.example.lynq.ui.detail
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
-import com.example.lynq.R
 import com.example.lynq.data.remote.response.ListStoryItem
 import com.example.lynq.databinding.ActivityDetailStoryBinding
-import com.example.lynq.databinding.ActivityMainBinding
 
 @Suppress("DEPRECATION")
 class DetailStoryActivity : AppCompatActivity() {

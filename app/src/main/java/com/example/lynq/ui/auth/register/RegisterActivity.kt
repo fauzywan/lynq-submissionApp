@@ -142,7 +142,6 @@ class RegisterActivity : AppCompatActivity() {
                 val name = binding.edRegisterName.text.toString()
                 val email = binding.edRegisterEmail.text.toString()
                 val password = binding.edRegisterPassword.text.toString()
-                Log.d("password", "setupAction: ${password}")
                 if (password.length < 8) {
                     binding.edRegisterPassword.error = "Password harus memiliki minimal 8 karakter"
                 } else {

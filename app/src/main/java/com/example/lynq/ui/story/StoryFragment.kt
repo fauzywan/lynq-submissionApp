@@ -1,34 +1,24 @@
-package com.example.lynq.ui.home
+package com.example.lynq.ui.story
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.lynq.ViewModelFactory
 import com.example.lynq.adapter.StoryAdapter
-import com.example.lynq.data.pref.UserModel
-import com.example.lynq.databinding.FragmentHomeBinding
-import com.example.lynq.ui.auth.login.LoginViewModel
-import com.example.lynq.ui.dashboard.DashboardViewModel
 import com.example.lynq.data.Result
 import com.example.lynq.data.remote.response.ListStoryItem
-import com.example.lynq.ui.auth.login.LoginActivity
+import com.example.lynq.databinding.FragmentStoryBinding
 
 
-class HomeFragment : Fragment() {
-    private var _binding: FragmentHomeBinding? = null
+class StoryFragment : Fragment() {
+    private var _binding: FragmentStoryBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by viewModels<HomeViewModel> {
+    private val viewModel by viewModels<StoryViewModel> {
         ViewModelFactory.getInstance(requireActivity())
     }
     override fun onCreateView(
@@ -37,8 +27,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        _binding = FragmentStoryBinding .inflate(inflater, container, false)
         val root: View = binding.root
 
         return root
@@ -46,13 +35,6 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        viewModel.getSession()
-//        viewModel.userSession.observe(requireActivity()) { user ->
-//            if (user != null) {
-//
-//                viewModel.getAllStory(user.token)
-//            }
-//        }
         viewModel.getAllStory.observe(viewLifecycleOwner){result->
             when(result){
                 is Result.Loading->{

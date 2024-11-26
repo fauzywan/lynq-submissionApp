@@ -23,23 +23,6 @@ class CustomButton : AppCompatButton {
             txtColor = ContextCompat.getColor(context, android.R.color.background_light)
             enabledBackground = ContextCompat.getDrawable(context, R.drawable.bg_button) as Drawable
             disabledBackground = ContextCompat.getDrawable(context, R.drawable.bg_button_disable) as Drawable
-            addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                }
-
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    if (s != null && s.length < 8) {
-                        Toast.makeText(context, "Password harus terdiri dari minimal 8 karakter", Toast.LENGTH_SHORT).show()
-                    }
-                }
-
-                override fun afterTextChanged(s: Editable?) {
-                    if (s != null && s.length < 8) {
-                        Toast.makeText(context, "Password harus terdiri dari minimal 8 karakter", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            })
-
         }
 
 

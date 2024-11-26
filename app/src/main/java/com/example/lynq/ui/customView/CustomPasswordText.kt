@@ -29,7 +29,7 @@ class CustomPasswordText @JvmOverloads constructor(
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 if(s.length<8 && s.isNotEmpty()){
-                    error="Password minimal 8 karakter"
+                    error= R.string.password_must_8.toString()
                     backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, android.R.color.holo_red_dark))
                 } else {
                     error = null

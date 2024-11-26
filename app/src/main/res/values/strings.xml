@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Lynq</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_story">Story</string>
+    <string name="title_post">Post</string>
+    <string name="title_settings">Settings</string>
     <string name="who_there">Hallo Siapa Disana?</string>
     <string name="login_desc">Pastikan Kamu mengisi setiap kolom dengan benar</string>
     <string name="email">Email</string>
@@ -13,4 +13,17 @@
     <string name="name">Mari mulai dengan namamu</string>
     <string name="signup">Ambil Identitas</string>
     <string name="back_to_login">Kembali ke Login</string>
+    <string name="gallery">Galery</string>
+    <string name="analyze">Camera</string>
+    <string name="preview">Preview Image</string>
+    <string name="upload">Upload Story</string>
+    <string name="description_story">Deskripsi</string>
+    <string name="empty_image_warning">Silakan masukkan berkas gambar terlebih dahulu.\n</string>
+    <string name="logout">Logout</string>
+    <string name="todo">TODO</string>
+    <string name="faile_session">Gagal menyimpan session</string>
+    <string name="welcome_traveler">Selamat Datang,Selamat Menjelajah</string>
+    <string name="open_gate">Buka Gerbang</string>
+    <string name="hallo">Hallo %1$s</string>
+    <string name="password_must_8">Password harus terdiri dari minimal 8 karakter</string>
 </resources>

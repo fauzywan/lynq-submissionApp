@@ -23,6 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:contentDescription="TODO"
+            android:transitionName="image"
             android:scaleType="centerCrop"
             tools:src="@tools:sample/avatars"  />
 
@@ -36,6 +37,7 @@
             android:paddingVertical="10dp"
             >
             <TextView
+                android:transitionName="name"
                 android:id="@+id/tv_item_name"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"

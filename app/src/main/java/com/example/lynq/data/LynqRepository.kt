@@ -1,21 +1,21 @@
 package com.example.lynq.data
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.liveData
 import com.example.lynq.data.local.room.StoriesDao
 import com.example.lynq.data.pref.UserModel
 import com.example.lynq.data.pref.UserPreference
-import com.example.lynq.data.remote.response.ErrorResponse
+import com.example.lynq.data.remote.response.RequestResponse
 import com.example.lynq.data.remote.response.RegisterResponse
 import com.example.lynq.data.remote.response.StoryResponse
 
 import com.example.lynq.data.remote.retrofit.ApiService
 import com.example.lynq.utils.AppExecutors
 import com.google.gson.Gson
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.HttpException
 
 class LynqRepository private constructor(
@@ -31,36 +31,39 @@ class LynqRepository private constructor(
     fun getSession(): LiveData<UserModel> {
         return userPreference.getSession().asLiveData()
     }
+
     suspend fun logout() {
         userPreference.logout()
     }
 
-    fun authRegister(name:String,email:String,password:String): LiveData<Result<RegisterResponse>> = liveData {
+    fun authRegister(
+        name: String,
+        email: String,
+        password: String
+    ): LiveData<Result<RegisterResponse>> = liveData {
         emit(Result.Loading)
         try {
-            val response = apiService.register(name,email,password)
+            val response = apiService.register(name, email, password)
 
             if (!response.error) {
                 emit(Result.Success(response))
             } else {
                 emit(Result.Error(response.message))
             }
-        }
-        catch (e: HttpException) {
+        } catch (e: HttpException) {
             val jsonInString = e.response()?.errorBody()?.string()
-            val errorBody = Gson().fromJson(jsonInString, ErrorResponse::class.java)
+            val errorBody = Gson().fromJson(jsonInString, RequestResponse::class.java)
             emit(Result.Error(errorBody.message.toString()))
-        }
-        catch (e: Exception) {
+        } catch (e: Exception) {
             emit(Result.Error(e.message.toString()))
         }
 
     }
 
-    fun authLogin(email: String,password: String): LiveData<Result<UserModel>> = liveData {
+    fun authLogin(email: String, password: String): LiveData<Result<UserModel>> = liveData {
         emit(Result.Loading)
         try {
-            val response = apiService.authenticate(email,password)
+            val response = apiService.authenticate(email, password)
             if (!response.error) {
                 val user = response.loginResult
                 val userModel = UserModel(
@@ -74,12 +77,11 @@ class LynqRepository private constructor(
             } else {
                 emit(Result.Error("Login failed: ${response.message}"))
             }
-        }   catch (e: HttpException) {
+        } catch (e: HttpException) {
             val jsonInString = e.response()?.errorBody()?.string()
-            val errorBody = Gson().fromJson(jsonInString, ErrorResponse::class.java)
+            val errorBody = Gson().fromJson(jsonInString, RequestResponse::class.java)
             emit(Result.Error(errorBody.message.toString()))
-        }
-        catch (e: Exception) {
+        } catch (e: Exception) {
             emit(Result.Error(e.message.toString()))
         }
     }
@@ -94,15 +96,35 @@ class LynqRepository private constructor(
             } else {
                 emit(Result.Error(response.message))
             }
-        }catch (e: HttpException) {
+        } catch (e: HttpException) {
             val jsonInString = e.response()?.errorBody()?.string()
-            val errorBody = Gson().fromJson(jsonInString, ErrorResponse::class.java)
+            val errorBody = Gson().fromJson(jsonInString, RequestResponse::class.java)
             emit(Result.Error(errorBody.message.toString()))
-        }
-        catch (e: Exception) {
+        } catch (e: Exception) {
             emit(Result.Error(e.message.toString()))
         }
     }
+    fun uploadStory(multipartBody: MultipartBody.Part, requestBody: RequestBody) :LiveData<Result<RequestResponse>> = liveData {
+       emit(Result.Loading)
+        try {
+            val token = userPreference.getSession().first().token
+            val response = apiService.postStory(multipartBody,"Bearer $token",requestBody)
+            if (!response.error) {
+                emit(Result.Success(response))
+            } else {
+                emit(Result.Error(response.message))
+            }
+        } catch (e: HttpException) {
+            val jsonInString = e.response()?.errorBody()?.string()
+            val errorBody = Gson().fromJson(jsonInString, RequestResponse::class.java)
+            emit(Result.Error(errorBody.message.toString()))
+        } catch (e: Exception) {
+            emit(Result.Error(e.message.toString()))
+        }
+    }
+
+
+
 
 
     companion object {

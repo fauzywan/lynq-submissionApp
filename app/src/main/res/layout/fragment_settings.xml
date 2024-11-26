@@ -6,13 +6,13 @@
     android:orientation="vertical"
 android:gravity="center"
     android:layout_height="match_parent"
-    tools:context=".ui.notifications.NotificationsFragment">
+    tools:context=".ui.settings.SettingsFragment">
 
     <Button
         android:gravity="center"
         android:id="@+id/action_logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Logout"
+        android:text="@string/logout"
         android:layout_gravity="center" />
 </LinearLayout>

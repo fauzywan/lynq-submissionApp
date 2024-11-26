@@ -14,5 +14,7 @@
         <!-- Customize your theme here. -->
 
         <item name="fontFamily">@font/poppins</item>
+        <item name="android:windowActivityTransitions">true</item>
+        <item name="android:windowEnterTransition">@android:transition/explode</item>
     </style>
 </resources>
