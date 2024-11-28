@@ -1,9 +1,7 @@
 package com.example.lynq.ui.post
 
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +14,6 @@ import androidx.fragment.app.viewModels
 import com.example.lynq.R
 import com.example.lynq.ViewModelFactory
 import com.example.lynq.databinding.FragmentPostStoryBinding
-import com.example.lynq.ui.story.StoryViewModel
 import com.example.lynq.utils.getImageUri
 import com.example.lynq.utils.uriToFile
 import okhttp3.MediaType.Companion.toMediaType

@@ -4,6 +4,7 @@ package com.example.lynq.ui.auth.login
 import android.R
 import android.content.Intent
 import android.content.res.ColorStateList
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
@@ -36,6 +37,16 @@ class LoginActivity : AppCompatActivity() {
 
         setupView()
         setupAction()
+        viewModel.getSession()
+        viewModel.userSession.observe(this) { user ->
+            if (user.name.isNotEmpty()) {
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        }
+
+
         viewModel.loginResult.observe(this) { result ->
             when (result) {
                 is Result.Success -> {
@@ -71,7 +82,6 @@ class LoginActivity : AppCompatActivity() {
                     when {
                         result.error.contains("email") -> {
                             binding.edLoginEmail.error = result.error
-                            binding.edLoginEmail.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.holo_red_dark))
                         }
 
                         else -> {
@@ -116,10 +126,6 @@ class LoginActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 binding.edLoginPassword.isEnabled = s.isNotEmpty()
                 val isEmailValid = Patterns.EMAIL_ADDRESS.matcher(s.toString()).matches()
-                if(isEmailValid){
-                    binding.edLoginEmail.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this@LoginActivity, android.R.color.darker_gray))
-
-                }
                 binding.loginButton.isEnabled = isEmailValid && passwordValidation()
             }
 
@@ -164,5 +170,13 @@ class LoginActivity : AppCompatActivity() {
                 )
             }
             supportActionBar?.hide()
+//        val isDarkMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+//
+//        if (isDarkMode) {
+//            binding.imageView.setImageResource(R.drawable.lynq_dark)
+//        } else {
+//            binding.imageView.setImageResource(R.drawable.lynq)
+//        }
     }
+
 }

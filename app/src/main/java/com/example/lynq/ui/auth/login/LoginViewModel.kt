@@ -41,7 +41,15 @@ class LoginViewModel(private val lyncRepository: LynqRepository) : ViewModel() {
             }
         }
     }
+    private val _userSession = MutableLiveData<UserModel>()
+    val userSession: LiveData<UserModel> = _userSession
 
+
+    fun getSession() {
+        lyncRepository.getSession().observeForever { user ->
+            _userSession.value = user
+        }
+    }
 
 
 }

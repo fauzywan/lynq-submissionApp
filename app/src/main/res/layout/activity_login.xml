@@ -8,45 +8,59 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="0dp"
+        android:layout_width="200dp"
         android:layout_height="0dp"
         android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        app:layout_constraintBottom_toTopOf="@+id/guidelineHorizontal"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="TODO"
+        app:layout_constraintBottom_toTopOf="@+id/titleTextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guidelineHorizontal2"
-        app:srcCompat="@drawable/ic_launcher_foreground" />
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/lynq" />
 
     <TextView
         android:id="@+id/titleTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="32dp"
         android:text="@string/who_there"
-        android:textColor="@color/black"
-        android:textSize="20sp"
+        android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guidelineHorizontal" />
 
-    <TextView
-        android:id="@+id/messageTextView"
-        android:layout_width="0dp"
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:id="@+id/registrasion_area"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="32dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:text="@string/login_desc"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/titleTextView"
+        >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/login_desc"
+        android:textSize="16sp"
+      />
+
+        <TextView
+            android:textStyle="bold"
+            android:id="@+id/registrasion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:text="@string/create_account"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/emailTextView"
@@ -55,20 +69,22 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="24dp"
         android:text="@string/email"
-        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/messageTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/registrasion_area" />
 
     <com.example.lynq.ui.customView.CustomEditText
-        android:drawableStart="@drawable/ic_dashboard_black_24dp"
+        android:drawableStart="@drawable/mailbox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="10dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="32dp"
         android:id="@+id/ed_login_email"
         android:ems="10"
+        android:background="@drawable/textfield_ui"
         android:inputType="textEmailAddress"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailTextView"
@@ -88,7 +104,9 @@
 
 
         <com.example.lynq.ui.customView.CustomPasswordText
-
+            android:background="@drawable/textfield_ui"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="10dp"
             android:id="@+id/ed_login_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -101,40 +119,28 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/passwordTextView" />
 
-        <com.example.lynq.ui.customView.CustomButton
-
-            android:id="@+id/loginButton"
-            android:layout_width="0dp"
-            android:layout_height="64dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="32dp"
-            android:enabled="false"
-            android:text="@string/login"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/registrasion" />
-
-    <TextView
-        android:id="@+id/registrasion"
-        android:layout_marginTop="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:textColor="@color/link_text"
-        android:text="@string/not_registered"
-        android:textStyle="bold"
+    <com.example.lynq.ui.customView.CustomButton
+        android:id="@+id/loginButton"
+        android:layout_width="0dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="92dp"
+        android:layout_marginEnd="32dp"
+        android:enabled="false"
+        android:text="@string/login"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ed_login_password" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineHorizontal"
         android:layout_width="wrap_content"
         android:layout_height="64dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintGuide_percent="0.4"
+        app:layout_constraintGuide_end="585dp"
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline

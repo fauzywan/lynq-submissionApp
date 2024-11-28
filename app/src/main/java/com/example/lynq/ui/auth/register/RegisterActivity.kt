@@ -1,6 +1,7 @@
 package com.example.lynq.ui.auth.register
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -12,6 +13,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.example.lynq.R
 import com.example.lynq.ViewModelFactory
 import com.example.lynq.databinding.ActivityRegisterBinding
 import com.example.lynq.ui.auth.login.LoginActivity
@@ -42,6 +44,13 @@ class RegisterActivity : AppCompatActivity() {
             {
                 binding.edRegisterEmail.error=null
             }
+        }
+        val isDarkMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+
+        if (isDarkMode) {
+            binding.imageView.setImageResource(R.drawable.lynq_night)
+        } else {
+            binding.imageView.setImageResource(R.drawable.lynq)
         }
         binding.edRegisterEmail.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {

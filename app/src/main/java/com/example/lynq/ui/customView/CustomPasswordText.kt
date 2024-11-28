@@ -21,7 +21,6 @@ class CustomPasswordText @JvmOverloads constructor(
     private var eyeIcon = ContextCompat.getDrawable(context, R.drawable.ic_eye_off)
 
     init {
-        backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, android.R.color.darker_gray))
         compoundDrawablePadding = 32
         setCompoundDrawablesWithIntrinsicBounds(eyeIcon, null, null, null)
         setOnTouchListener(this)
@@ -29,12 +28,10 @@ class CustomPasswordText @JvmOverloads constructor(
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 if(s.length<8 && s.isNotEmpty()){
-                    error= R.string.password_must_8.toString()
-                    backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, android.R.color.holo_red_dark))
+                    error = context.getString(R.string.password_must_8)
                 } else {
                     error = null
 
-                    backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, android.R.color.darker_gray))
                 }
 
             }

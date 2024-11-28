@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.lynq.ViewModelFactory
 import com.example.lynq.databinding.FragmentSettingsBinding
+import java.util.Locale
 
 class SettingsFragment : Fragment() {
 
@@ -35,7 +36,7 @@ class SettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val factory: ViewModelFactory = ViewModelFactory.getInstance(requireActivity())
         val viewModel: SettingsViewModel by viewModels { factory }
-
+        binding.language.text  = Locale.getDefault().displayLanguage.toString()
         binding.actionLogout.setOnClickListener{
                 AlertDialog.Builder(requireContext())
                     .setTitle("Konfirmasi Logout")

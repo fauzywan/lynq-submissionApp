@@ -8,26 +8,24 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="0dp"
+        android:layout_width="200dp"
         android:layout_height="0dp"
         android:layout_marginStart="32dp"
+
         android:layout_marginEnd="32dp"
         app:layout_constraintBottom_toTopOf="@+id/guidelineHorizontal"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline2"
-        app:srcCompat="@drawable/ic_dashboard_black_24dp" />
+        app:srcCompat="@drawable/lynq" />
 
     <TextView
         android:id="@+id/titleTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
         android:text="@string/title_signup_page"
-        android:textColor="@color/black"
-        android:textSize="20sp"
+        android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -35,30 +33,17 @@
         app:layout_constraintTop_toTopOf="@+id/guidelineHorizontal" />
 
     <TextView
-        android:id="@+id/nameTextView"
-        android:layout_width="wrap_content"
+        android:id="@+id/subTitle"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/name"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleTextView" />
-    <com.example.lynq.ui.customView.CustomEditText
-        android:drawableStart="@drawable/ic_dashboard_black_24dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="32dp"
-        android:id="@+id/ed_register_name"
-        android:ems="10"
-        android:inputType="text"
+        android:text="@string/lynq_today"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameTextView"
-        />
-
+        app:layout_constraintTop_toTopOf="@+id/titleTextView" />
     <TextView
         android:id="@+id/emailTextView"
         android:layout_width="wrap_content"
@@ -66,16 +51,18 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:text="@string/email"
-        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ed_register_name" />
+        app:layout_constraintTop_toBottomOf="@+id/subTitle" />
 
     <com.example.lynq.ui.customView.CustomEditText
-        android:drawableStart="@drawable/ic_dashboard_black_24dp"
+        android:drawableStart="@drawable/mailbox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
         android:layout_marginStart="32dp"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="10dp"
+        android:background="@drawable/textfield_ui"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="32dp"
         android:id="@+id/ed_register_email"
@@ -84,20 +71,49 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailTextView"
         />
+
+    <TextView
+        android:id="@+id/nameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ed_register_email" />
+    <com.example.lynq.ui.customView.CustomEditText
+        android:drawableStart="@drawable/id_card"
+        android:id="@+id/ed_register_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginStart="32dp"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="10dp"
+        android:background="@drawable/textfield_ui"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="32dp"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nameTextView" />
+
+
     <TextView
         android:id="@+id/passwordTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="20dp"
         android:text="@string/password"
-        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ed_register_email" />
+        app:layout_constraintTop_toBottomOf="@+id/ed_register_name" />
 
 
     <com.example.lynq.ui.customView.CustomPasswordText
-
+        android:background="@drawable/textfield_ui"
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="10dp"
         android:id="@+id/ed_register_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -115,21 +131,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:textColor="@color/link_text"
         android:text="@string/back_to_login"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ed_register_password" />
 
-    <Button
+    <com.example.lynq.ui.customView.CustomButton
         android:id="@+id/signupButton"
         android:layout_width="0dp"
         android:layout_height="64dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
-        android:backgroundTint="@color/black"
+        android:backgroundTint="@color/secondary_color"
         android:text="@string/signup"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

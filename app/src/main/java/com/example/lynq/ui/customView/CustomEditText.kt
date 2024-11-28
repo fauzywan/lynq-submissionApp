@@ -23,7 +23,6 @@ context: Context, attrs: AttributeSet? = null
 
         clearButtonImage = ContextCompat.getDrawable(context, R.drawable.ic_close_black_24dp) as Drawable
         setOnTouchListener(this)
-        backgroundTintList = ContextCompat.getColorStateList(context, R.color.custom_edit_tintlist)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             textCursorDrawable = ContextCompat.getDrawable(context, R.drawable.caret)
         }
