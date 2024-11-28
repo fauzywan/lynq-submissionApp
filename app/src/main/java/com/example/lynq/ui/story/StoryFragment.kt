@@ -26,7 +26,6 @@ class StoryFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentStoryBinding .inflate(inflater, container, false)
         val root: View = binding.root
 
