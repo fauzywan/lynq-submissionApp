@@ -8,13 +8,20 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.FileProvider
 import com.example.lynq.BuildConfig
+import com.example.lynq.R
+import com.google.android.material.switchmaterial.SwitchMaterial
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
 import java.text.SimpleDateFormat
+import java.time.Duration
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
 import java.util.Date
 import java.util.Locale
 
@@ -78,4 +85,38 @@ fun uriToFile(imageUri:Uri,context: Context):File{
     outputStream.close()
     inputStream.close()
     return myFile
+}
+
+fun ThemeisDark(isDarkModeActive: Boolean, switchTheme: SwitchMaterial? = null) {
+    if (isDarkModeActive) {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        switchTheme?.isChecked = true
+    } else {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        switchTheme?.isChecked = false
+    }
+}
+fun String.formatDate(context: Context): String {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        val instant = Instant.parse(this)
+        val dateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
+
+        val now = LocalDateTime.now()
+        val duration = Duration.between(dateTime, now)
+
+        val s = when {
+            duration.toMinutes() < 1 -> context.getString(R.string.just_now)
+            duration.toHours() < 1 -> context.getString(R.string.min_ago, duration.toMinutes().toString())
+            duration.toDays() < 1 -> context.getString(R.string.hour_ago, duration.toHours().toString())
+            duration.toDays() < 2 -> context.getString(R.string.yesterday)
+            else -> java.time.format.DateTimeFormatter.ofPattern("d MMMM yyyy", Locale.getDefault())
+                .format(dateTime)
+        }
+        s
+    } else {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+        val date = dateFormat.parse(this)
+        val dateFormatter = SimpleDateFormat("d MMMM yyyy", Locale.getDefault())
+        dateFormatter.format(date)
+    }
 }

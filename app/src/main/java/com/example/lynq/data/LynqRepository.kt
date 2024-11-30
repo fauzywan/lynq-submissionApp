@@ -31,6 +31,13 @@ class LynqRepository private constructor(
     fun getSession(): LiveData<UserModel> {
         return userPreference.getSession().asLiveData()
     }
+    fun getDarkMode(): LiveData<Boolean> {
+        return userPreference.getDarkMode().asLiveData()
+    }
+
+    suspend fun saveDarkMode(isDarkMode: Boolean) {
+        userPreference.saveDarkMode(isDarkMode)
+    }
 
     suspend fun logout() {
         userPreference.logout()

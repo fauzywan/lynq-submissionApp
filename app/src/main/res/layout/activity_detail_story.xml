@@ -29,40 +29,52 @@
       android:id="@+id/btnBack"
       android:contentDescription="@string/todo"
       android:rotation="180"
-      android:layout_width="55dp"
-      android:layout_height="32dp"
+      android:layout_width="65dp"
+      android:layout_height="35dp"
       android:layout_gravity="top|start"
       android:layout_margin="10dp"
       android:background="@drawable/rounded_button"
       android:src="@drawable/ic_arrow"
       android:scaleType="center"
-      app:tint="@android:color/black" />
+      app:tint="@color/primary_color" />
 </FrameLayout>
 
-    <!-- Nama dan Lokasi -->
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_gravity="center"
+        android:paddingHorizontal="20dp"
         android:layout_marginTop="16dp">
 
       <TextView
+          android:layout_marginEnd="10dp"
           android:id="@+id/tv_detail_name"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:text="@string/title_story"
-          android:textSize="24sp"
+          tools:text="@string/title_story"
+          android:textColor="@color/secondary_color"
+
           android:textStyle="bold" />
 
       <TextView
           android:id="@+id/tv_detail_description"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
+          tools:text="Lorem ipsum dolor 🔥🔥 (🗿)"
+          android:textColor="@color/secondary_color"
+          android:layout_toEndOf="@+id/tv_detail_name"
+          />
+        <TextView android:textSize="13sp"
+            android:layout_marginTop="5dp"
+          android:id="@+id/tv_detail_date"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
           android:text="@string/title_story"
-          android:textSize="16sp"
-          android:textColor="#666666"
-          android:layout_marginTop="4dp" />
-    </LinearLayout>
+           android:layout_below="@id/tv_detail_description"
+          android:textColor="@color/secondary_color"
+          />
+    </RelativeLayout>
 
 
   </LinearLayout>

@@ -24,12 +24,20 @@
     <string name="logout">Logout</string>
     <string name="todo">TODO</string>
     <string name="faile_session">Failed to save session</string>
-    <string name="welcome_traveler">Embrace your courage,Make Your Mark</string>
+    <string name="welcome_traveler">Embrace your courage</string>
     <string name="open_gate">Step Inside</string>
     <string name="hallo">Hello %1$s</string>
     <string name="password_must_8">Password must be at least 8 characters long</string>
     <string name="lang">Language</string>
     <string name="create_account">Create Account</string>
     <string name="fill_the_colom">Fill The Form</string>
-    <string name="haiName">Hai,👋\n </string>
+    <string name="haiName">Hai,👋 </string>
+    <string name="story">Add Story</string>
+    <string name="mode">Mode</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="post_story">Post Story</string>
+    <string name="hour_ago">%1$s hour ago</string>
+    <string name="just_now">Just now</string>
+    <string name="min_ago">%1$s min ago</string>
+
 </resources>

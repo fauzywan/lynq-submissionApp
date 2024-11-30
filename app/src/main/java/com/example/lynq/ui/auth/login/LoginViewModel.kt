@@ -3,22 +3,23 @@ package com.example.lynq.ui.auth.login
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.lynq.data.LynqRepository
 import com.example.lynq.data.pref.UserModel
 import kotlinx.coroutines.launch
 import com.example.lynq.data.Result
 
-class LoginViewModel(private val lyncRepository: LynqRepository) : ViewModel() {
+class LoginViewModel(private val lynqRepository: LynqRepository) : ViewModel() {
 
     private val _loginResult = MutableLiveData<Result<UserModel>>()
     val loginResult: LiveData<Result<UserModel>> = _loginResult
     private val _sessionSaveResult = MutableLiveData<Boolean>()
     val sessionSaveResult: LiveData<Boolean> = _sessionSaveResult
+    val darkMode: LiveData<Boolean> = lynqRepository.getDarkMode()
+
 
     fun login(email: String, password: String) {
-        val resultLiveData = lyncRepository.authLogin(email, password)
+        val resultLiveData = lynqRepository.authLogin(email, password)
         resultLiveData.observeForever { result ->
             _loginResult.value = when (result) {
                 is Result.Success -> {
@@ -33,7 +34,7 @@ class LoginViewModel(private val lyncRepository: LynqRepository) : ViewModel() {
     fun saveSession(user: UserModel) {
         viewModelScope.launch {
             try {
-                lyncRepository.saveSession(user).apply {
+                lynqRepository.saveSession(user).apply {
                 _sessionSaveResult.postValue(true)
                 }
             } catch (e: Exception) {
@@ -46,7 +47,7 @@ class LoginViewModel(private val lyncRepository: LynqRepository) : ViewModel() {
 
 
     fun getSession() {
-        lyncRepository.getSession().observeForever { user ->
+        lynqRepository.getSession().observeForever { user ->
             _userSession.value = user
         }
     }

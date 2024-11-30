@@ -58,7 +58,7 @@ class RegisterActivity : AppCompatActivity() {
                 if (!isValidEmail(email)) {
                     binding.edRegisterEmail.error = "Invalid email format"
                 } else {
-                    binding.edRegisterEmail.error = null // Hapus error jika email valid
+                    binding.edRegisterEmail.error = null
                 }
             }else{
                     binding.edRegisterEmail.error = null

@@ -14,6 +14,7 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "se
 class UserPreference private constructor(private val dataStore: DataStore<Preferences>) {
     suspend fun saveSession(user: UserModel) {
         dataStore.edit { preferences ->
+            preferences[DARK_MODE_KEY] ?: false
             preferences[NAME_KEY] = user.name
             preferences[USERID_KEY] = user.userId
             preferences[EMAIL_KEY] = user.email
@@ -23,6 +24,8 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
     }
     fun getSession(): Flow<UserModel> {
         return dataStore.data.map { preferences ->
+            preferences[DARK_MODE_KEY] ?: false
+
             UserModel(
                 preferences[NAME_KEY] ?: "",
                 preferences[USERID_KEY] ?: "",
@@ -38,15 +41,28 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
             preferences.clear()
         }
     }
+    suspend fun saveDarkMode(isDarkMode: Boolean) {
+        dataStore.edit { preferences ->
+            preferences[DARK_MODE_KEY] = isDarkMode
+        }
+    }
 
-    companion object{
-    @Volatile
-    private var INSTANCE: UserPreference? = null
+    fun getDarkMode(): Flow<Boolean> {
+        return dataStore.data.map { preferences ->
+            preferences[DARK_MODE_KEY] ?: false
+        }
+    }
+
+    companion object {
+        @Volatile
+        private var INSTANCE: UserPreference? = null
         private val USERID_KEY = stringPreferencesKey("userId")
         private val NAME_KEY = stringPreferencesKey("name")
         private val EMAIL_KEY = stringPreferencesKey("email")
         private val TOKEN_KEY = stringPreferencesKey("token")
         private val IS_LOGIN_KEY = booleanPreferencesKey("isLogin")
+        private val DARK_MODE_KEY = booleanPreferencesKey("dark_mode")
+
         fun getInstance(dataStore: DataStore<Preferences>): UserPreference {
             return INSTANCE ?: synchronized(this) {
                 val instance = UserPreference(dataStore)
@@ -54,5 +70,5 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
                 instance
             }
         }
-}
+    }
 }

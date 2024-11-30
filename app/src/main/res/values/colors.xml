@@ -10,5 +10,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="primary_color">#F0EADF</color>
     <color name="secondary_color">#5F5050</color>
+    <color name="header_brown">#5F5050</color>
     <color name="secondary_color_200">#8a7676</color>
 </resources>

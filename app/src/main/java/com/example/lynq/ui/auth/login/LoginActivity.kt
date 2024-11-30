@@ -1,9 +1,7 @@
 package com.example.lynq.ui.auth.login
 
-//noinspection SuspiciousImport
-import android.R
+import com.example.lynq.R
 import android.content.Intent
-import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
@@ -17,12 +15,13 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import com.example.lynq.MainActivity
 import com.example.lynq.ViewModelFactory
 import com.example.lynq.databinding.ActivityLoginBinding
 import com.example.lynq.data.Result
 import com.example.lynq.ui.auth.register.RegisterActivity
+import com.example.lynq.ui.story.StoryActivity
+import com.example.lynq.utils.ThemeisDark
 
 class LoginActivity : AppCompatActivity() {
     private val viewModel by viewModels<LoginViewModel> {
@@ -40,7 +39,7 @@ class LoginActivity : AppCompatActivity() {
         viewModel.getSession()
         viewModel.userSession.observe(this) { user ->
             if (user.name.isNotEmpty()) {
-                val intent = Intent(this, MainActivity::class.java)
+                val intent = Intent(this, StoryActivity::class.java)
                 startActivity(intent)
                 finish()
             }
@@ -169,14 +168,17 @@ class LoginActivity : AppCompatActivity() {
                     WindowManager.LayoutParams.FLAG_FULLSCREEN
                 )
             }
+        viewModel.darkMode.observe(this) { isDarkMode ->
+            ThemeisDark(isDarkMode)
+        }
             supportActionBar?.hide()
-//        val isDarkMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
-//
-//        if (isDarkMode) {
-//            binding.imageView.setImageResource(R.drawable.lynq_dark)
-//        } else {
-//            binding.imageView.setImageResource(R.drawable.lynq)
-//        }
+        val isDarkMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+
+        if (isDarkMode) {
+            binding.imageView.setImageResource(R.drawable.lynq_night)
+        } else {
+            binding.imageView.setImageResource(R.drawable.lynq)
+        }
     }
 
 }

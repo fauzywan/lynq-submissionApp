@@ -14,12 +14,15 @@ import com.example.lynq.R
 import com.example.lynq.data.remote.response.ListStoryItem
 import com.example.lynq.ui.detail.DetailStoryActivity
 import androidx.core.util.Pair
+import com.example.lynq.utils.formatDate
+
 class StoryAdapter(private val stories: List<ListStoryItem>) : RecyclerView.Adapter<StoryAdapter.StoryViewHolder>() {
 
     class StoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val photo: ImageView = view.findViewById(R.id.iv_item_photo)
-        val name: TextView = view.findViewById(R.id.tv_item_name)
-        val description: TextView = view.findViewById(R.id.tvItemDescription)
+        val name: TextView = view.findViewById(R.id.tv_post_name)
+        val date: TextView = view.findViewById(R.id.tv_post_date)
+        val nick: TextView = view.findViewById(R.id.tv_post_circle_name)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StoryViewHolder {
@@ -29,8 +32,9 @@ class StoryAdapter(private val stories: List<ListStoryItem>) : RecyclerView.Adap
 
     override fun onBindViewHolder(holder: StoryViewHolder, position: Int) {
         val story = stories[position]
+        holder.nick.text = story.name.first().toString().uppercase()
         holder.name.text = story.name
-        holder.description.text = story.description
+        holder.date.text = story.createdAt.formatDate(holder.itemView.context)
         Glide.with(holder.itemView.context)
             .load(story.photoUrl)
             .into(holder.photo)
